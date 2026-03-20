@@ -25,13 +25,31 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] **Game's purpose:** A number guessing game where the player tries to guess a secret number in the minimum attempts possible. The difficulty setting controls the number range and attempt limit. Points are awarded for winning and deducted for each wrong guess.
+
+- [x] **Bugs found:**
+  1. Hints were backwards — "Go Higher" shown when guess was too high, and vice-versa
+  2. Attempts initialized to 1 instead of 0, so the first guess was counted as attempt 2
+  3. Max score on first correct guess was 70 instead of 80 due to the attempt bug above
+  4. On every even-numbered attempt, the secret was cast to a string, making comparison fail
+  5. Submit button required two clicks due to Streamlit form/input focus behavior
+  6. New Game did not reset score, status, or history, and ignored the selected difficulty range
+  7. Info bar always showed "1 to 100" regardless of selected difficulty
+  8. Wrong guess on even attempts added +5 points instead of deducting 5
+
+- [x] **Fixes applied:**
+  1. Swapped hint messages in `check_guess` — Too High now says "Go LOWER", Too Low says "Go HIGHER"
+  2. Changed `attempts` initialization from `1` to `0`
+  3. Removed the even/odd type cast that converted secret to string on even attempts
+  4. Wrapped input and submit in `st.form` so a single click submits correctly
+  5. Fixed New Game to reset all session state and use `random.randint(low, high)`
+  6. Updated info bar to use `{low}` and `{high}` from the difficulty range
+  7. Fixed score deduction to always subtract 5 for wrong guesses regardless of attempt number
+  8. Refactored all logic into `logic_utils.py` and added 24 pytest unit tests
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+![Game Demo](screenshot/Screenshot%202026-03-19%20234128.png)
 
 ## 🚀 Stretch Features
 
